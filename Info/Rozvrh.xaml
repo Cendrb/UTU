@@ -1,0 +1,8 @@
+﻿<Window x:Class="Info.Rozvrh"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Rozvrh" Height="451" Width="689">
+    <Grid>
+        <WebBrowser HorizontalAlignment="Left" Height="401" Margin="10,10,0,0" VerticalAlignment="Top" Width="661" Source="http://78.45.4.130/bakaweb/login.aspx"/>
+    </Grid>
+</Window>

@@ -1,0 +1,10 @@
+﻿<Window x:Class="Info.Nezavřitelné"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NEZAVÍRAT!" Height="146" Width="328" Closing="Window_Closing" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Label Content="Nezavírat" HorizontalAlignment="Left" Height="101" VerticalAlignment="Top" Width="323" FontSize="72" Margin="0,0,-1,0" Background="Red"/>
+        <Label Content="Varování: Před jakoukoliv další akcí si uložte svou práci!!!" HorizontalAlignment="Left" Margin="0,91,-1,0" Width="323" Background="Red"/>
+
+    </Grid>
+</Window>

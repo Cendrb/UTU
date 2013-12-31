@@ -1,0 +1,14 @@
+﻿<Window x:Class="Info.ThemeChooser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Výběr tématu" Height="192" Width="274" Closing="Window_Closing">
+    <Grid>
+        <Label Content="Vyberte si prosím vámi upřednosťňované téma:" HorizontalAlignment="Left" Height="25" Margin="0,10,0,0" VerticalAlignment="Top" Width="275"/>
+        <ListBox x:Name="témataListBox" Margin="10,40,10,10" BorderBrush="White">
+            <RadioButton x:Name="původníradioButton" IsChecked="True" Content="Původní téma"/>
+            <RadioButton x:Name="tmavéRadioButton" Content="Tmavé téma"/>
+        </ListBox>
+        <Button x:Name="saveButton" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="246" Margin="10,125,0,0" Height="26" Click="Save_Click"/>
+
+    </Grid>
+</Window>

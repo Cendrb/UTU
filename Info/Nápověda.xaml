@@ -1,0 +1,11 @@
+﻿<Window x:Class="Info.Nápověda"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Nápověda" Height="440" Width="633" ResizeMode="NoResize">
+    <Grid>
+        <Button x:Name="OKButton" Content="OK" Margin="115,0,122,10" Click="OKButton_Click" Height="39" VerticalAlignment="Bottom"/>
+        <Label Content="Vítejte v nápovědě pro aplikaci Utu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="200"/>
+        <TextBox Margin="10,41,10,56" TextWrapping="Wrap" Text="Data ze serveru jsou načítána pouze při startu nebo při stisku tlačítka Nastavení &gt; Obnovit (Nebo klávesa F5)&#xA;Data Testy/Události/Úkoly jsou obnovovány z lokálního dříve staženého souboru při změně skupiny nebo nastavení týkajícího se zobrazení&#xA;Pokud naleznete v programu chybu sdělte mi ji prosím mailem (cendrb@gmail.com) nebo osobně :)&#xD;&#xA;Jakékoliv návrhy nebo připomíny pište na výše zmíněný mail&#xA;Aktuální stav aplikace se zobrazuje v dolním řádku v hlavním okně (včetně případných chyb)&#xA;Při výběru kterékoliv skupiny se vždy zobrazují informace určené pro obě skupiny&#xA;&#xA;Plánované funkce:&#xA;Vždy aktuální rozvrh s interaktivním prostředím (zobrazení informací o předmětu a.t.d)&#xA;Zabudované odesílání chyb&#xA;Další nastavitelné položky přes okno Nastavení (pište nápady :))&#xA;Ukládání posledních nastavení a jejich opětovné načtení při pozdějším startu aplikace" IsReadOnly="True"/>
+
+    </Grid>
+</Window>

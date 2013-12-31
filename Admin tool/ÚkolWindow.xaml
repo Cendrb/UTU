@@ -1,0 +1,39 @@
+﻿<Window x:Class="Admin_tool.ÚkolWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Úkol" Height="341" Width="263" ResizeMode="NoResize">
+    <Grid>
+        <Label Content="Nový úkol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="20"/>
+        <Label Content="Název:" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top"/>
+        <Label Content="Popis:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,78,0,0"/>
+        <Label Content="Splnit do:" HorizontalAlignment="Left" Height="24" Margin="10,204,0,0" VerticalAlignment="Top" Width="60"/>
+        <Label Content="Předmět:" HorizontalAlignment="Left" Height="24" Margin="10,175,0,0" VerticalAlignment="Top" Width="75"/>
+        <DatePicker x:Name="splnitDoDatePicker" HorizontalAlignment="Left" Height="24" Margin="90,204,0,0" VerticalAlignment="Top" Width="152"/>
+        <ComboBox x:Name="předmětComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="90,177,0,0">
+            <ComboBoxItem Content="ČJL"/>
+            <ComboBoxItem Content="MA"/>
+            <ComboBoxItem Content="PŘÍ"/>
+            <ComboBoxItem Content="D"/>
+            <ComboBoxItem Content="IKT"/>
+            <ComboBoxItem Content="NJ"/>
+            <ComboBoxItem Content="AJ"/>
+            <ComboBoxItem Content="HV"/>
+            <ComboBoxItem Content="VV"/>
+            <ComboBoxItem Content="Z"/>
+            <ComboBoxItem Content="TV"/>
+            <ComboBoxItem Content="VO"/>
+            <ComboBoxItem Content="F"/>
+            <ComboBoxItem Content="CH"/>
+        </ComboBox>
+        <Button x:Name="uložitButton" Content="Uložit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="232" Margin="10,264,0,0" Height="33" Click="uložitButton_Click" RenderTransformOrigin="0.485,2.03"/>
+        <TextBox x:Name="názevTextBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="70,56,0,0"/>
+        <Label Content="Skupina:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,233,0,0"/>
+        <ComboBox x:Name="skupinaCombobox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="90,233,0,0" Height="22">
+            <ComboBoxItem Content="1. skupina"/>
+            <ComboBoxItem Content="2. skupina"/>
+            <ComboBoxItem Content="obě skupiny"/>
+        </ComboBox>
+        <TextBox x:Name="popisTextBox" HorizontalAlignment="Left" Height="66" Margin="10,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232"/>
+
+    </Grid>
+</Window>
