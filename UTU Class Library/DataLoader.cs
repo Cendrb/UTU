@@ -22,7 +22,7 @@ namespace UTU_Class_Library
 
         private event Action<Database> dataFromFTPLoaded;
 
-        private Database ftpDatabase, mySQLDatabase, msSQLDatabase;
+        private Database ftpDatabase, mySQLDatabase, msSQLDatabase, sqliteDatabase;
 
         public DataLoader(string password)
         {
@@ -251,9 +251,34 @@ namespace UTU_Class_Library
             return true;
         }
 
-        public void LoadFromMySQL(Database database)
+        public void LoadFromSQLite(Action<Database> completed)
         {
-            MySQLDB db = new MySQLDB(password);
+            if (sqliteDatabase == null)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        public void LoadFromSQLite(Action<Database> completed, bool forceReDownload)
+        {
+            if (forceReDownload)
+            {
+                
+            }
+            else
+            {
+                if (sqliteDatabase == null)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
         }
 
         public void FTPToMSSQL()

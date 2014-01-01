@@ -75,16 +75,12 @@ namespace Info
                 Keyboard.AddKeyDownHandler(this, KEH);
 
                 reset();
-
-                daysInWeek day = daysInWeek.Neděle;
-                day += ((int)DateTime.Now.DayOfWeek);
-                dnesLabel.Content = String.Format("Dnes je {1} {0}", DateTime.Now.ToLongDateString(), day.ToString().ToLower());
-                //throw new InvalidDataException("Maryporn detected!");
+                initializeTodayLabel();
             }
             catch (Exception e)
             {
                 showInInfobar("VAROVÁNÍ: Došlo k neočekávané vyjímce - program nemusí správně fungovat");
-                MessageBox.Show("VAROVÁNÍ: Došlo k neočekávané vyjímce - program nemusí správně fungovat (" + e.Message + ")", "FATAL ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("VAROVÁNÍ: Došlo k neočekávané vyjímce - program nemusí správně fungovat (" + e.Message + ")", "FEKAL ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 BackgroundWorker reporter = new BackgroundWorker();
                 reporter.DoWork += (x, y) => sendReport("Neočekávaná vyjímka: " + e.Message + "\nVlákno: " + Thread.CurrentThread.Name);
                 reporter.RunWorkerAsync();
@@ -93,18 +89,18 @@ namespace Info
         private void reset()
         {
             //initialize datasource
-            dataLoader.LoadFromFTP(
+            dataLoader.LoadFromSQLite(
                 delegate(Database database)
                 {
                     PrimaryDataSource = database;
                     settings.LoadSettings();
                 });
         }
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void initializeTodayLabel()
         {
-            settings.SaveData();
-            sendReport("Application Closed");
-            Application.Current.Shutdown();
+            daysInWeek day = daysInWeek.Neděle;
+            day += ((int)DateTime.Now.DayOfWeek);
+            dnesLabel.Content = String.Format("Dnes je {1} {0}", DateTime.Now.ToLongDateString(), day.ToString().ToLower());
         }
         private void Window_Closed(object sender, EventArgs e)
         {

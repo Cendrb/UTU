@@ -77,7 +77,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>9F6FB85F86B1B6284C1CE7DA89933E6E1A893904</ManifestCertificateThumbprint>
