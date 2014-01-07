@@ -12,6 +12,7 @@ using UTU_Class_Library;
 using UTU_WPF_GUI;
 using System.Threading;
 using System.ComponentModel;
+using System.Deployment.Application;
 
 namespace Info
 {
@@ -125,109 +126,109 @@ namespace Info
         /// <param name="dataSource">Zdroj informací pro zobrazení</param>
         private void showInfo(int skupina, Database dataSource)
         {
-                //Pole událostí
-                událostiListBox.Items.Clear();
-                List<Events> events = dataSource.Events;
-                events.Sort();
+            //Pole událostí
+            událostiListBox.Items.Clear();
+            List<Events> events = dataSource.Events;
+            events.Sort();
 
-                IEnumerable<Events> vyhovujícíUdálosti = from událost in events
-                                                         where DateTime.Now <= událost.To
-                                                         select událost;
-                foreach (Events eventX in vyhovujícíUdálosti)
+            IEnumerable<Events> vyhovujícíUdálosti = from událost in events
+                                                     where DateTime.Now <= událost.To
+                                                     select událost;
+            foreach (Events eventX in vyhovujícíUdálosti)
+            {
+                EventWindow EW = new EventWindow(eventX);
+                ListBoxItem LBI = new ListBoxItem();
+                LBI.Content = eventX.Name + " - " + eventX.From.ToShortDateString();
+                LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
+                událostiListBox.Items.Add(LBI);
+            }
+
+            //Pole testů
+            testyListBox.Items.Clear();
+            List<Exams> exams = dataSource.Exams;
+            exams.Sort();
+
+            if (settings.ShowOdloženéTesty)
+            {
+                IEnumerable<Exams> vyhovujícíTesty = from test in exams
+                                                     where test.Group == 0 || test.Group == skupina
+                                                     where DateTime.Now <= test.Date
+                                                     select test;
+                foreach (Exams test in vyhovujícíTesty)
                 {
-                    EventWindow EW = new EventWindow(eventX);
+                    ExamWindow EW = new ExamWindow(test);
                     ListBoxItem LBI = new ListBoxItem();
-                    LBI.Content = eventX.Name + " - " + eventX.From.ToShortDateString();
-                    LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
-                    událostiListBox.Items.Add(LBI);
-                }
-               
-                //Pole testů
-                testyListBox.Items.Clear();
-                List<Exams> exams = dataSource.Exams;
-                exams.Sort();
-
-                if (settings.ShowOdloženéTesty)
-                {
-                    IEnumerable<Exams> vyhovujícíTesty = from test in exams
-                                                         where test.Group == 0 || test.Group == skupina
-                                                         where DateTime.Now <= test.Date
-                                                         select test;
-                    foreach (Exams test in vyhovujícíTesty)
+                    if (EW.Done)
                     {
-                        ExamWindow EW = new ExamWindow(test);
-                        ListBoxItem LBI = new ListBoxItem();
-                        if (EW.Done)
-                        {
-                            LBI.Content = test.Name + " " + test.Subject + " - " + test.Date.ToShortDateString() + " - odloženo";
-                            LBI.Foreground = new SolidColorBrush(Colors.Gray);
-                        }
-                        else
-                            LBI.Content = test.Name + " " + test.Subject + " - " + test.Date.ToShortDateString();
-                        LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
-                        testyListBox.Items.Add(LBI);
+                        LBI.Content = test.Name + " " + test.Subject + " - " + test.Date.ToShortDateString() + " - odloženo";
+                        LBI.Foreground = new SolidColorBrush(Colors.Gray);
                     }
-                }
-                else
-                {
-                    IEnumerable<Exams> vyhovujícíTesty = from test in exams
-                                                         where test.Group == 0 || test.Group == skupina
-                                                         where DateTime.Now <= test.Date
-                                                         select test;
-                    foreach (Exams test in vyhovujícíTesty)
-                    {
-                        ExamWindow EW = new ExamWindow(test);
-                        ListBoxItem LBI = new ListBoxItem();
+                    else
                         LBI.Content = test.Name + " " + test.Subject + " - " + test.Date.ToShortDateString();
-                        LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
-                        if(!EW.Done)
-                            testyListBox.Items.Add(LBI);
-                    }
+                    LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
+                    testyListBox.Items.Add(LBI);
                 }
-               
-
-                //Pole úkolů
-                úkolyListBox.Items.Clear();
-                List<Tasks> tasks = dataSource.Tasks;
-                tasks.Sort();
-
-                if (settings.ShowDokončenéÚkoly)
+            }
+            else
+            {
+                IEnumerable<Exams> vyhovujícíTesty = from test in exams
+                                                     where test.Group == 0 || test.Group == skupina
+                                                     where DateTime.Now <= test.Date
+                                                     select test;
+                foreach (Exams test in vyhovujícíTesty)
                 {
-                    IEnumerable<Tasks> vyhovujícíÚkoly = from úkol in tasks
-                                                         where úkol.Group == 0 || úkol.Group == skupina
-                                                         where DateTime.Now <= úkol.Date
-                                                         select úkol;
-                    foreach (Tasks úkol in vyhovujícíÚkoly)
-                    {
-                        TaskWindow EW = new TaskWindow(úkol);
-                        ListBoxItem LBI = new ListBoxItem();
-                        if (EW.Done)
-                        {
-                            LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString() + " - dokončeno";
-                            LBI.Foreground = new SolidColorBrush(Colors.Gray);
-                        }
-                        else
-                            LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString();
-                        LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
+                    ExamWindow EW = new ExamWindow(test);
+                    ListBoxItem LBI = new ListBoxItem();
+                    LBI.Content = test.Name + " " + test.Subject + " - " + test.Date.ToShortDateString();
+                    LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
+                    if (!EW.Done)
                         testyListBox.Items.Add(LBI);
-                    }
                 }
-                else
+            }
+
+
+            //Pole úkolů
+            úkolyListBox.Items.Clear();
+            List<Tasks> tasks = dataSource.Tasks;
+            tasks.Sort();
+
+            if (settings.ShowDokončenéÚkoly)
+            {
+                IEnumerable<Tasks> vyhovujícíÚkoly = from úkol in tasks
+                                                     where úkol.Group == 0 || úkol.Group == skupina
+                                                     where DateTime.Now <= úkol.Date
+                                                     select úkol;
+                foreach (Tasks úkol in vyhovujícíÚkoly)
                 {
-                    IEnumerable<Tasks> vyhovujícíTesty = from úkol in tasks
-                                                         where úkol.Group == 0 || úkol.Group == skupina
-                                                         where DateTime.Now <= úkol.Date
-                                                         select úkol;
-                    foreach (Tasks úkol in vyhovujícíTesty)
+                    TaskWindow EW = new TaskWindow(úkol);
+                    ListBoxItem LBI = new ListBoxItem();
+                    if (EW.Done)
                     {
-                        TaskWindow EW = new TaskWindow(úkol);
-                        ListBoxItem LBI = new ListBoxItem();
-                        LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString();
-                        LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
-                        if (!EW.Done)
-                            úkolyListBox.Items.Add(LBI);
+                        LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString() + " - dokončeno";
+                        LBI.Foreground = new SolidColorBrush(Colors.Gray);
                     }
+                    else
+                        LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString();
+                    LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
+                    testyListBox.Items.Add(LBI);
                 }
+            }
+            else
+            {
+                IEnumerable<Tasks> vyhovujícíTesty = from úkol in tasks
+                                                     where úkol.Group == 0 || úkol.Group == skupina
+                                                     where DateTime.Now <= úkol.Date
+                                                     select úkol;
+                foreach (Tasks úkol in vyhovujícíTesty)
+                {
+                    TaskWindow EW = new TaskWindow(úkol);
+                    ListBoxItem LBI = new ListBoxItem();
+                    LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString();
+                    LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
+                    if (!EW.Done)
+                        úkolyListBox.Items.Add(LBI);
+                }
+            }
         }
         private void výběrSkupinyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -260,7 +261,7 @@ namespace Info
         private void showInInfobar(string message)
         {
             statusBar.Items.Clear();
-            statusBar.Items.Add(message);     
+            statusBar.Items.Add(message);
         }
         private void writeToLog(string message)
         {
@@ -283,17 +284,25 @@ namespace Info
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(fromAddress.Address, password),
             };
-            using (MailMessage mailMessage = new MailMessage(fromAddress, toAddress)
+            using (MailMessage mailMessage = new MailMessage(fromAddress, toAddress))
             {
-                Subject = DateTime.Now.ToString(),
-                Body = String.Format("Zpráva: {0}\nDalší informace:\n{1}", message, String.Format("Spuštění programu UTU dne: {0}\ns verzí operačního systému: {1}\ns následujícím počtem procesorů (jader): {2}\ns následující verzí prostředí: {3}\nve složce: {4}\npočítač: {5}\n64-Bit?: {6}", DateTime.Now.ToString(), Environment.OSVersion, Environment.ProcessorCount, Environment.Version, Environment.CurrentDirectory, Environment.MachineName, Environment.Is64BitOperatingSystem))
-            })
-            {
+                mailMessage.Subject = "UTU Report" + DateTime.Now.ToString();
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Version myVersion;
+                    myVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                    string verze = String.Format("{0}.{1}.{2}.{3}", myVersion.Major, myVersion.Minor, myVersion.Build, myVersion.Revision);
+                    mailMessage.Body = String.Format("Zpráva: {0}\nDalší informace:\n{1}", message, String.Format("Spuštění programu UTU dne: {0}\ns verzí operačního systému: {1}\ns následujícím počtem procesorů (jader): {2}\ns následující verzí prostředí: {3}\nve složce: {4}\nVerze UTU: {5}", DateTime.Now.ToString(), Environment.OSVersion, Environment.ProcessorCount, Environment.Version, Environment.CurrentDirectory, verze));
+                }
+                else
+                {
+                    mailMessage.Body = String.Format("Zpráva: {0}\nDalší informace:\n{1}", message, String.Format("Spuštění programu UTU dne: {0}\ns verzí operačního systému: {1}\ns následujícím počtem procesorů (jader): {2}\ns následující verzí prostředí: {3}\nve složce: {4}", DateTime.Now.ToString(), Environment.OSVersion, Environment.ProcessorCount, Environment.Version, Environment.CurrentDirectory));
+                }
                 mailMessage.Attachments.Add(new Attachment(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Info", "Log", "logStatusBaru.log")));
                 smtp.Send(mailMessage);
             }
             Console.WriteLine("Zpráva byla odeslána");
         }
     }
-    
+
 }
