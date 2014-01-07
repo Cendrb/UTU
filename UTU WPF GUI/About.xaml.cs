@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Reflection;
 using System.Diagnostics;
+using System.Deployment.Application;
 
 namespace Info
 {
@@ -25,6 +26,12 @@ namespace Info
         public About()
         {
             InitializeComponent();
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                Version myVersion;
+                myVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                verze.Content = String.Format("{0}.{1}.{2}.{3}", myVersion.Major, myVersion.Minor, myVersion.Build, myVersion.Revision);
+            }
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

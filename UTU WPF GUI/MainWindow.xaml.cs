@@ -89,7 +89,7 @@ namespace Info
         private void reset()
         {
             //initialize datasource
-            dataLoader.LoadFromSQLite(
+            dataLoader.LoadFromFTP(
                 delegate(Database database)
                 {
                     PrimaryDataSource = database;
