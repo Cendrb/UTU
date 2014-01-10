@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using System.Windows;
 using System.Xml;
+using System.Net.Mail;
 
 namespace UTU_Class_Library
 {
@@ -60,6 +61,5 @@ namespace UTU_Class_Library
             if (!Directory.Exists(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Info", "Nastavení")))
                 Directory.CreateDirectory(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Info", "Nastavení"));
         }
-
     }
 }

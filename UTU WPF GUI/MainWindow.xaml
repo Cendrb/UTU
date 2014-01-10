@@ -17,6 +17,8 @@
                 </MenuItem>
                 <MenuItem x:Name="nápovědaMenuItem" Header="_Nápověda">
                     <MenuItem x:Name="nápovědaKAplikaciMenuItem" Header="_Nápověda k aplikaci" Click="nápovědaKAplikaciMenuItem_Click"/>
+                    <MenuItem x:Name="odeslatNázor" Header="_Odeslat názor/Nahlásit chybu" Click="odeslatNázor_Click"/>
+                    <MenuItem x:Name="posledníVerzeMenuItem" Header="_Získat poslední verzi" Click="posledníVerzeMenuItem_Click"></MenuItem>
                     <Separator/>
                     <MenuItem x:Name="oAplikaciMenuItem" Header="_O aplikaci" Click="oAplikaciMenuItem_Click"/>
                 </MenuItem>

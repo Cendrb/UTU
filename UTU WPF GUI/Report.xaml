@@ -1,0 +1,13 @@
+﻿<Window x:Class="UTU_WPF_GUI.Report"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Odeslat názor" Height="396" Width="594" Closing="Window_Closing">
+    <Grid>
+        <Button x:Name="sendButton" Content="Odeslat" Margin="10,0,10,10" Height="36" VerticalAlignment="Bottom" Click="sendButton_Click"/>
+        <Label Content="Předmět" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="předmětTextBox" Margin="70,12,10,0" TextWrapping="Wrap" Text="Sem zadejte předmět svojí zprávy" VerticalAlignment="Top" Height="26" GotFocus="předmětTextBox_GotFocus" Background="White" Foreground="Black"/>
+        <TextBox x:Name="textZprávyTextBox" TextWrapping="Wrap" Text="Sem napište svou připomínku/nápad/zprávu/chybu" Margin="10,43,10,51" GotFocus="textZprávyTextBox_GotFocus"/>
+
+    </Grid>
+</Window>
+

@@ -95,7 +95,8 @@ namespace Info
                 {
                     PrimaryDataSource = database;
                     settings.LoadSettings();
-                });
+                    showInfo(Group, PrimaryDataSource);
+                }, true);
         }
         private void initializeTodayLabel()
         {
@@ -106,7 +107,7 @@ namespace Info
         private void Window_Closed(object sender, EventArgs e)
         {
             settings.SaveData();
-            sendReport("Application Closed");
+            //sendReport("Application Closed");
             Application.Current.Shutdown();
         }
         private void nápovědaKAplikaciMenuItem_Click(object sender, RoutedEventArgs e)
@@ -286,7 +287,7 @@ namespace Info
             };
             using (MailMessage mailMessage = new MailMessage(fromAddress, toAddress))
             {
-                mailMessage.Subject = "UTU Report" + DateTime.Now.ToString();
+                mailMessage.Subject = "UTU Report " + DateTime.Now.ToString();
                 if (ApplicationDeployment.IsNetworkDeployed)
                 {
                     Version myVersion;
@@ -302,6 +303,111 @@ namespace Info
                 smtp.Send(mailMessage);
             }
             Console.WriteLine("Zpráva byla odeslána");
+        }
+        private void sendReport(string message, string subject)
+        {
+            //Send Gmail
+            MailAddress fromAddress = new MailAddress("adisinfoapp@gmail.com", "UTU Report");
+            MailAddress toAddress = new MailAddress("cendrb@gmail.com", "Developer");
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, password),
+            };
+            using (MailMessage mailMessage = new MailMessage(fromAddress, toAddress))
+            {
+                mailMessage.Subject = "UTU Report - " + subject + " - " + DateTime.Now.ToString();
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Version myVersion;
+                    myVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                    string verze = String.Format("{0}.{1}.{2}.{3}", myVersion.Major, myVersion.Minor, myVersion.Build, myVersion.Revision);
+                    mailMessage.Body = String.Format("Zpráva: {0}\nDalší informace:\n{1}", message, String.Format("Spuštění programu UTU dne: {0}\ns verzí operačního systému: {1}\ns následujícím počtem procesorů (jader): {2}\ns následující verzí prostředí: {3}\nve složce: {4}\nVerze UTU: {5}", DateTime.Now.ToString(), Environment.OSVersion, Environment.ProcessorCount, Environment.Version, Environment.CurrentDirectory, verze));
+                }
+                else
+                {
+                    mailMessage.Body = String.Format("Zpráva: {0}\nDalší informace:\n{1}", message, String.Format("Spuštění programu UTU dne: {0}\ns verzí operačního systému: {1}\ns následujícím počtem procesorů (jader): {2}\ns následující verzí prostředí: {3}\nve složce: {4}", DateTime.Now.ToString(), Environment.OSVersion, Environment.ProcessorCount, Environment.Version, Environment.CurrentDirectory));
+                }
+                mailMessage.Attachments.Add(new Attachment(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Info", "Log", "logStatusBaru.log")));
+                smtp.Send(mailMessage);
+            }
+            Console.WriteLine("Zpráva byla odeslána");
+        }
+        private void Update()
+        {
+            UpdateCheckInfo info = null;
+
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                ApplicationDeployment ad = ApplicationDeployment.CurrentDeployment;
+
+                try
+                {
+                    info = ad.CheckForDetailedUpdate();
+
+                }
+                catch (DeploymentDownloadException dde)
+                {
+                    MessageBox.Show("The new version of the application cannot be downloaded at this time. \n\nPlease check your network connection, or try again later. Error: " + dde.Message);
+                    return;
+                }
+                catch (InvalidDeploymentException ide)
+                {
+                    MessageBox.Show("Cannot check for a new version of the application. The ClickOnce deployment is corrupt. Please redeploy the application and try again. Error: " + ide.Message);
+                    return;
+                }
+                catch (InvalidOperationException ioe)
+                {
+                    MessageBox.Show("This application cannot be updated. It is likely not a ClickOnce application. Error: " + ioe.Message);
+                    return;
+                }
+
+                if (info.UpdateAvailable)
+                {
+                    Boolean doUpdate = true;
+
+                    if (!info.IsUpdateRequired)
+                    {
+                        MessageBoxResult mbr = MessageBox.Show("Byla nalezena aktualizace programu UTU. Přejete si ji stáhnout?", "Aktualizace k dispozici", MessageBoxButton.YesNo);
+                        if (mbr == MessageBoxResult.No)
+                        {
+                            doUpdate = false;
+                        }
+                    }
+                    if (doUpdate)
+                    {
+                        try
+                        {
+                            ad.Update();
+                            MessageBox.Show("Aplikace bude ukončena a aktualizována...\nPo dalším spuštění budete mít již nejnovější verzi");
+                            Application.Current.Shutdown();
+                        }
+                        catch (DeploymentDownloadException dde)
+                        {
+                            MessageBox.Show("Nelze nainstalovat nejnovější verzi aplikace\n\nOvěřte, že jste připojeni k interneu a zkuste to znovu. Error: " + dde);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Používáte nejnovější verzi aplikace UTU School Helper");
+                }
+            }
+        }
+        private void posledníVerzeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Update();
+        }
+
+        private void odeslatNázor_Click(object sender, RoutedEventArgs e)
+        {
+            Report report = new Report(sendReport);
+            report.Show();
         }
     }
 

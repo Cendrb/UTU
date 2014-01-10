@@ -18,22 +18,6 @@ namespace Console_Edit
             dataLoader.Error += Console.WriteLine;
             dataLoader.DebugMessage += Console.WriteLine;
 
-            MySQLDB db = new MySQLDB("suprakindrlo");
-
-            db.OpenConnection();
-            try
-            {
-                db.Insert(new Events() { Name = "KOKOT", Description = "ADIS", From = DateTime.Now, To = DateTime.Now, Place = "Ivona" });
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                db.CloseConnection();
-            }
-
             switch (Console.ReadLine())
             {
                 case "copytonewsqldatabase":
