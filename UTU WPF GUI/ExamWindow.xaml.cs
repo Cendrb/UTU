@@ -45,6 +45,7 @@ namespace UTU_WPF_GUI
             Title = input.Name;
             nadpisLabel.Content = input.Name;
             popisTextBox.Text = input.Description;
+            doLabel.Content = input.Date.ToShortDateString();
             předmětLabel.Content = input.Subject;
             if (input.Group != 0)
                 skupinaLabel.Content = input.Group + ".";
