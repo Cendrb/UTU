@@ -24,6 +24,7 @@ namespace Console_Edit
                     dataLoader.FTPToMSSQL();
                     break;
             }
+            Console.WriteLine("End");
             Console.ReadKey();
         }
 
