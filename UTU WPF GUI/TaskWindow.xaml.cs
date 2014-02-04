@@ -43,6 +43,7 @@ namespace UTU_WPF_GUI
             local = input;
             InitializeComponent();
             Title = input.Name;
+            doLabel.Content = input.Date.ToShortDateString();
             nadpisLabel.Content = input.Name;
             popisTextBox.Text = input.Description;
             předmětLabel.Content = input.Subject;
