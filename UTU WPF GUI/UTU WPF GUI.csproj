@@ -64,10 +64,11 @@
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timstamp.dll</ManifestTimestampUrl>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>27B4F2D82F9C4BBF4D2ADD8B8501D20C0E7C15A2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>0A794E8C99BFBCC57C71AA6C0619F50B44778C1C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>UTU WPF GUI_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

@@ -84,7 +84,7 @@ namespace UTU_Class_Library
             }
         }
         private void loadDataFromXML(Action<Database> completed)
-        { 
+        {
             List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
             List<Exams> Exams = new List<UTU_Class_Library.Exams>();
             List<Events> Events = new List<UTU_Class_Library.Events>();
@@ -198,7 +198,7 @@ namespace UTU_Class_Library
         }
         public void LoadFromMSSQL(Action<Database> completed, bool forceReDownload)
         {
-            if(forceReDownload)
+            if (forceReDownload)
             {
                 msSQLConnected = connectToMSSQL();
                 if (msSQLConnected)
@@ -269,7 +269,7 @@ namespace UTU_Class_Library
         {
             if (forceReDownload)
             {
-                
+
             }
             else
             {
@@ -373,98 +373,124 @@ namespace UTU_Class_Library
         {
             if (pgDatabase == null)
             {
-                string sql;
-                DataSet data = new DataSet();
-                DataTable table = new DataTable();
-                NpgsqlDataAdapter adapter;
-
-                try
-                {
-                    string connstring = String.Format("Server={0};Port={1};" + "User Id={2};Password={3};Database={4};SSL=true;SslMode=Require;", "ec2-54-197-227-238.compute-1.amazonaws.com", "5432", "yrfxcxkqukzxaa", "N28TYQ_mCVqxrjXin7ZS5tqcRH", "dc734vvumo191f");
-                    
-                    // Making connection with Npgsql provider
-                    NpgsqlConnection conn = new NpgsqlConnection(connstring);
-                    conn.Open();
-                    #region Events
-                    // quite complex sql statement
-                    sql = "SELECT * FROM events";
-                    // data adapter making request from our connection
-                    adapter = new NpgsqlDataAdapter(sql, conn);
-
-                    data.Reset();
-
-                    adapter.Fill(data);
-                    table = data.Tables[0];
-
-                    foreach (DataRow row in table.Rows)
-                    {
-                        Events e = new Events();
-                        e.Name = row.Field<string>("title");
-                        e.Description = row.Field<string>("description");
-                        e.Place = row.Field<string>("location");
-                        e.From = row.Field<DateTime>("start");
-                        e.To = row.Field<DateTime>("end");
-                        pgDatabase.Events.Add(e);
-                    }
-                    #endregion
-
-                    #region Exams
-                    // quite complex sql statement
-                    sql = "SELECT * FROM exams";
-                    // data adapter making request from our connection
-                    adapter = new NpgsqlDataAdapter(sql, conn);
-
-                    data.Reset();
-
-                    adapter.Fill(data);
-                    table = data.Tables[0];
-
-                    foreach (DataRow row in table.Rows)
-                    {
-                        Exams e = new Exams();
-                        e.Name = row.Field<string>("title");
-                        e.Description = row.Field<string>("description");
-                        e.Subject = row.Field<string>("subject");
-                        e.Group = row.Field<int>("group");
-                        e.Date = row.Field<DateTime>("date");
-                        pgDatabase.Exams.Add(e);
-                    }
-                    #endregion
-
-                    #region Tasks
-                    // quite complex sql statement
-                    sql = "SELECT * FROM tasks";
-                    // data adapter making request from our connection
-                    adapter = new NpgsqlDataAdapter(sql, conn);
-
-                    data.Reset();
-
-                    adapter.Fill(data);
-                    table = data.Tables[0];
-
-                    foreach (DataRow row in table.Rows)
-                    {
-                        Tasks e = new Tasks();
-                        e.Name = row.Field<string>("title");
-                        e.Description = row.Field<string>("description");
-                        e.Subject = row.Field<string>("subject");
-                        e.Group = row.Field<int>("group");
-                        e.Date = row.Field<DateTime>("date");
-                        pgDatabase.Tasks.Add(e);
-                    }
-                    #endregion
-
-                    completed(pgDatabase);
-                }
-                catch(Exception e)
-                {
-                    Error("Došlo k závažné chybě při načítání dat z databáze. Restarujte aplikaci a kontaktujte autora. " + e.Message);
-                    DebugMessage(e.Message);
-                }
+                loadFromPG(completed);
             }
             else
             {
                 completed(pgDatabase);
+            }
+        }
+        public void LoadFromPG(Action<Database> completed, bool forceReLoad)
+        {
+            if (forceReLoad)
+            {
+                loadFromPG(completed);
+            }
+            else
+            {
+                if (pgDatabase == null)
+                {
+                    loadFromPG(completed);
+                }
+                else
+                {
+                    completed(pgDatabase);
+                }
+            }
+        }
+
+        private void loadFromPG(Action<Database> completed)
+        {
+            List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
+            List<Exams> Exams = new List<UTU_Class_Library.Exams>();
+            List<Events> Events = new List<UTU_Class_Library.Events>();
+            string sql;
+            DataSet data = new DataSet();
+            DataTable table = new DataTable();
+            NpgsqlDataAdapter adapter;
+
+            try
+            {
+                string connstring = String.Format("Server={0};Port={1};" + "User Id={2};Password={3};Database={4};SSL=true;SslMode=Require;", "ec2-54-197-227-238.compute-1.amazonaws.com", "5432", "yrfxcxkqukzxaa", "N28TYQ_mCVqxrjXin7ZS5tqcRH", "dc734vvumo191f");
+
+                // Making connection with Npgsql provider
+                NpgsqlConnection conn = new NpgsqlConnection(connstring);
+                conn.Open();
+                #region Events
+                // quite complex sql statement
+                sql = "SELECT * FROM events";
+                // data adapter making request from our connection
+                adapter = new NpgsqlDataAdapter(sql, conn);
+
+                data.Reset();
+
+                adapter.Fill(data);
+                table = data.Tables[0];
+
+                foreach (DataRow row in table.Rows)
+                {
+                    Events e = new Events();
+                    e.Name = row.Field<string>("title");
+                    e.Description = row.Field<string>("description");
+                    e.Place = row.Field<string>("location");
+                    e.From = row.Field<DateTime>("start");
+                    e.To = row.Field<DateTime>("end");
+                    Events.Add(e);
+                }
+                #endregion
+
+                #region Exams
+                // quite complex sql statement
+                sql = "SELECT * FROM exams";
+                // data adapter making request from our connection
+                adapter = new NpgsqlDataAdapter(sql, conn);
+
+                data.Reset();
+
+                adapter.Fill(data);
+                table = data.Tables[0];
+
+                foreach (DataRow row in table.Rows)
+                {
+                    Exams e = new Exams();
+                    e.Name = row.Field<string>("title");
+                    e.Description = row.Field<string>("description");
+                    e.Subject = row.Field<string>("subject");
+                    e.Group = row.Field<int>("group");
+                    e.Date = row.Field<DateTime>("date");
+                    Exams.Add(e);
+                }
+                #endregion
+
+                #region Tasks
+                // quite complex sql statement
+                sql = "SELECT * FROM tasks";
+                // data adapter making request from our connection
+                adapter = new NpgsqlDataAdapter(sql, conn);
+
+                data.Reset();
+
+                adapter.Fill(data);
+                table = data.Tables[0];
+
+                foreach (DataRow row in table.Rows)
+                {
+                    Tasks e = new Tasks();
+                    e.Name = row.Field<string>("title");
+                    e.Description = row.Field<string>("description");
+                    e.Subject = row.Field<string>("subject");
+                    e.Group = row.Field<int>("group");
+                    e.Date = row.Field<DateTime>("date");
+                    Tasks.Add(e);
+                }
+                #endregion
+
+                completed(new Database(Events, Tasks, Exams));
+            }
+            catch (Exception e)
+            {
+                Error("Došlo k závažné chybě při načítání dat z databáze. Restarujte aplikaci a kontaktujte autora. " + e.Message);
+                DebugMessage(e.Message);
             }
         }
     }
