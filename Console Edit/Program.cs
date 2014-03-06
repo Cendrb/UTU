@@ -18,16 +18,14 @@ namespace Console_Edit
             dataLoader.Error += Console.WriteLine;
             dataLoader.DebugMessage += Console.WriteLine;
 
-            switch (Console.ReadLine())
-            {
-                case "copytonewsqldatabase":
-                    dataLoader.FTPToMSSQL();
-                    break;
-            }
+            dataLoader.LoadFromPG(Psim);
             Console.WriteLine("End");
             Console.ReadKey();
         }
-
+        private static void Psim(Database data)
+        {
+            Console.WriteLine("The End!");
+        }
 
     }
 }

@@ -211,7 +211,7 @@ namespace Info
                     else
                         LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString();
                     LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
-                    testyListBox.Items.Add(LBI);
+                    úkolyListBox.Items.Add(LBI);
                 }
             }
             else

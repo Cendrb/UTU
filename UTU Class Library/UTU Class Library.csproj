@@ -39,6 +39,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\PostgreSQL\Npgsql\ms.net4.0\Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="SQLite.Designer, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
