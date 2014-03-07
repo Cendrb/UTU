@@ -90,7 +90,7 @@ namespace Info
         private void reset()
         {
             //initialize datasource
-            dataLoader.LoadFromFTP(
+            dataLoader.LoadFromPG(
                 delegate(Database database)
                 {
                     PrimaryDataSource = database;

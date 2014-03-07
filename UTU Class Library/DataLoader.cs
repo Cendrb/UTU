@@ -284,37 +284,6 @@ namespace UTU_Class_Library
             }
         }
 
-        public void FTPToMSSQL()
-        {
-            LoadFromFTP(addToSQL);
-        }
-        private void addToSQL(Database from)
-        {
-            //odstranění konfliktů mezi databází SQL a souborem .dat
-            findAndRepairConflicts(from);
-
-            //foreach všechno a postupně přidat do SQL
-            foreach (Events e in from.Events)
-            {
-                e.Id = e.getId();
-                msSQL.Events.InsertOnSubmit(e);
-            }
-            foreach (Tasks t in from.Tasks)
-            {
-                t.Id = t.getId();
-                msSQL.Tasks.InsertOnSubmit(t);
-            }
-            foreach (Exams ex in from.Exams)
-            {
-                ex.Id = ex.getId();
-                msSQL.Exams.InsertOnSubmit(ex);
-            }
-            //submit changes :)
-            msSQL.SubmitChanges();
-
-            //tato databáza byla pozměněna - nutno odstranit
-            from = null;
-        }
         private void findAndRepairConflicts(Database from)
         {
             //EVENTS
