@@ -97,7 +97,7 @@ namespace UTU_Class_Library
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Events")]
-	public partial class Events : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Events : INotifyPropertyChanging, INotifyPropertyChanged, IComparable<Events>
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -276,10 +276,19 @@ namespace UTU_Class_Library
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
+
+        public int CompareTo(Events other)
+        {
+            if (this.From < other.From)
+                return -1;
+            if(this.From == other.From)
+                return 0;
+            else return 1;
+        }
+    }
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tasks")]
-	public partial class Tasks : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Tasks : INotifyPropertyChanging, INotifyPropertyChanged, IComparable<Tasks>
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -458,10 +467,19 @@ namespace UTU_Class_Library
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
+
+        public int CompareTo(Tasks other)
+        {
+            if (this.Date < other.Date)
+                return -1;
+            if (this.Date == other.Date)
+                return 0;
+            else return 1;
+        }
+    }
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Exams")]
-	public partial class Exams : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Exams : INotifyPropertyChanging, INotifyPropertyChanged, IComparable<Exams>
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -640,6 +658,15 @@ namespace UTU_Class_Library
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
+
+        public int CompareTo(Exams other)
+        {
+            if (this.Date < other.Date)
+                return -1;
+            if (this.Date == other.Date)
+                return 0;
+            else return 1;
+        }
+    }
 }
 #pragma warning restore 1591

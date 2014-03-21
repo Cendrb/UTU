@@ -402,8 +402,8 @@ namespace UTU_Class_Library
                     e.Name = row.Field<string>("title");
                     e.Description = row.Field<string>("description");
                     e.Place = row.Field<string>("location");
-                    e.From = row.Field<DateTime>("start");
-                    e.To = row.Field<DateTime>("end");
+                    e.From = row.Field<DateTime>("event_start");
+                    e.To = row.Field<DateTime>("event_end");
                     Events.Add(e);
                 }
                 #endregion
@@ -425,7 +425,11 @@ namespace UTU_Class_Library
                     e.Name = row.Field<string>("title");
                     e.Description = row.Field<string>("description");
                     e.Subject = row.Field<string>("subject");
-                    e.Group = row.Field<int>("group");
+                    var group = row.Field<int?>("group");
+                    if (group == null)
+                        e.Group = 0;
+                    else
+                        e.Group = group.Value;
                     e.Date = row.Field<DateTime>("date");
                     Exams.Add(e);
                 }
@@ -448,7 +452,11 @@ namespace UTU_Class_Library
                     e.Name = row.Field<string>("title");
                     e.Description = row.Field<string>("description");
                     e.Subject = row.Field<string>("subject");
-                    e.Group = row.Field<int>("group");
+                    var group = row.Field<int?>("group");
+                    if (group == null)
+                        e.Group = 0;
+                    else
+                        e.Group = group.Value;
                     e.Date = row.Field<DateTime>("date");
                     Tasks.Add(e);
                 }
