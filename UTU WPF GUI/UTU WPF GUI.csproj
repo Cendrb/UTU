@@ -62,20 +62,19 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timstamp.dll</ManifestTimestampUrl>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0A794E8C99BFBCC57C71AA6C0619F50B44778C1C</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>FB32D5EDC4D2CFB525E19BC583436DE3C1E190F1</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>UTU WPF GUI_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -162,6 +161,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="UTU WPF GUI_1_TemporaryKey.pfx" />
     <None Include="UTU WPF GUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@ using System.Xml;
 using Npgsql;
 using System.Data;
 using System.Diagnostics;
+using System.Net;
 
 namespace UTU_Class_Library
 {
@@ -25,7 +26,7 @@ namespace UTU_Class_Library
 
         private event Action<Database> dataFromFTPLoaded;
 
-        private Database ftpDatabase, mySQLDatabase, msSQLDatabase, sqliteDatabase, pgDatabase;
+        private Database ftpDatabase, mySQLDatabase, msSQLDatabase, sqliteDatabase, pgDatabase, httpDatabase;
 
         public DataLoader(string password)
         {
@@ -87,7 +88,7 @@ namespace UTU_Class_Library
         {
             List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
             List<Exams> Exams = new List<UTU_Class_Library.Exams>();
-            List<Events> Events = new List<UTU_Class_Library.Events>();
+            List<Event> Events = new List<UTU_Class_Library.Event>();
             try
             {
                 XmlDocument doc = new XmlDocument();
@@ -113,7 +114,7 @@ namespace UTU_Class_Library
                     datumKonce = událostElement.GetAttribute("datumKonce");
                     místo = událostElement.GetAttribute("misto");
 
-                    Events událost = new Events();
+                    Event událost = new Event();
                     událost.Name = název;
                     událost.Description = popis;
                     událost.From = DateTime.Parse(datumZačátku);
@@ -177,120 +178,14 @@ namespace UTU_Class_Library
             completed(ftpDatabase);
         }
 
-        public void LoadFromMSSQL(Action<Database> completed)
-        {
-            if (msSQLDatabase == null)
-            {
-                msSQLConnected = connectToMSSQL();
-                if (msSQLConnected)
-                {
-                    msSQLDatabase = new Database(msSQL.Events.ToList(), msSQL.Tasks.ToList(), msSQL.Exams.ToList());
-                    completed(msSQLDatabase);
-                    ImportantMessage("Data načtena");
-                }
-            }
-            else
-            {
-                DebugMessage("Byl použit již dříve stažený soubor.");
-                completed(msSQLDatabase);
-                ImportantMessage("Data načtena");
-            }
-        }
-        public void LoadFromMSSQL(Action<Database> completed, bool forceReDownload)
-        {
-            if (forceReDownload)
-            {
-                msSQLConnected = connectToMSSQL();
-                if (msSQLConnected)
-                {
-                    msSQLDatabase = new Database(msSQL.Events.ToList(), msSQL.Tasks.ToList(), msSQL.Exams.ToList());
-                    completed(msSQLDatabase);
-                }
-            }
-            else
-            {
-                if (msSQLDatabase == null)
-                {
-                    msSQLConnected = connectToMSSQL();
-                    if (msSQLConnected)
-                    {
-                        msSQLDatabase = new Database(msSQL.Events.ToList(), msSQL.Tasks.ToList(), msSQL.Exams.ToList());
-                        completed(msSQLDatabase);
-                    }
-                }
-                else
-                {
-                    ImportantMessage("Data načtena");
-                    DebugMessage("Byl použit již dříve stažený soubor.");
-                    completed(msSQLDatabase);
-                }
-            }
-        }
-        private bool connectToMSSQL()
-        {
-            SqlConnection connection = new SqlConnection();
-            try
-            {
-                ImportantMessage("Zahájeno připojování k SQL databázi");
-                SqlConnectionStringBuilder configuration = new SqlConnectionStringBuilder();
-                configuration.DataSource = "(LocalDB)\\v11.0";
-                configuration.InitialCatalog = "utu";
-                configuration.IntegratedSecurity = true;
-                connection.ConnectionString = configuration.ConnectionString;
-
-                connection.Open();
-                msSQL = new DataClasses1DataContext(connection);
-            }
-            catch (SqlException e)
-            {
-                Error("Došlo k chybě při připojování k databázi: " + e.Message);
-                return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
-            ImportantMessage("Úspešně připojeno");
-            return true;
-        }
-
-        public void LoadFromSQLite(Action<Database> completed)
-        {
-            if (sqliteDatabase == null)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-        public void LoadFromSQLite(Action<Database> completed, bool forceReDownload)
-        {
-            if (forceReDownload)
-            {
-
-            }
-            else
-            {
-                if (sqliteDatabase == null)
-                {
-
-                }
-                else
-                {
-
-                }
-            }
-        }
-
+        /* Conflicts
         private void findAndRepairConflicts(Database from)
         {
             //EVENTS
             IEnumerable<double> eventsFromSql = from item in msSQL.Events
                                                 select item.Id;
-            List<Events> removedEvents = new List<Events>();
-            foreach (Events item in from.Events)
+            List<Event> removedEvents = new List<Event>();
+            foreach (Event item in from.Events)
             {
                 DebugMessage("Porovnávám id: " + item.Id.ToString());
                 if (eventsFromSql.Contains(item.Id))
@@ -299,7 +194,7 @@ namespace UTU_Class_Library
                     removedEvents.Add(item);
                 }
             }
-            foreach (Events remove in removedEvents)
+            foreach (Event remove in removedEvents)
                 from.Events.Remove(remove);
 
 
@@ -337,6 +232,7 @@ namespace UTU_Class_Library
                 from.Exams.Remove(remove);
 
         }
+         */
 
         public void LoadFromPG(Action<Database> completed)
         {
@@ -372,7 +268,7 @@ namespace UTU_Class_Library
         {
             List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
             List<Exams> Exams = new List<UTU_Class_Library.Exams>();
-            List<Events> Events = new List<UTU_Class_Library.Events>();
+            List<Event> Events = new List<UTU_Class_Library.Event>();
             string sql;
             DataSet data = new DataSet();
             DataTable table = new DataTable();
@@ -398,7 +294,7 @@ namespace UTU_Class_Library
 
                 foreach (DataRow row in table.Rows)
                 {
-                    Events e = new Events();
+                    Event e = new Event();
                     e.Name = row.Field<string>("title");
                     e.Description = row.Field<string>("description");
                     e.Place = row.Field<string>("location");
@@ -469,6 +365,134 @@ namespace UTU_Class_Library
                 Error("Došlo k závažné chybě při načítání dat z databáze. Restarujte aplikaci a kontaktujte autora. " + e.Message);
                 DebugMessage(e.Message);
             }
+        }
+
+        public void LoadFromWebUsingHttpRequest(Action<Database> completed, bool forceReload)
+        {
+            if (forceReload)
+            {
+                loadFromWebUsingHttpRequest(completed);
+            }
+
+            if (httpDatabase == null)
+            {
+                loadFromWebUsingHttpRequest(completed);
+            }
+            else
+            {
+                completed(httpDatabase);
+            }
+        }
+
+        private void loadFromWebUsingHttpRequest(Action<Database> completed)
+        {
+            WebRequest request = WebRequest.Create("http://utu.herokuapp.com/details.xml");
+            request.Credentials = CredentialCache.DefaultCredentials;
+            WebResponse response = request.GetResponse();
+
+            loadDataFromXMLFromWeb(completed, response.GetResponseStream());
+        }
+        private void loadDataFromXMLFromWeb(Action<Database> completed, Stream stream)
+        {
+            List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
+            List<Exams> Exams = new List<UTU_Class_Library.Exams>();
+            List<Event> Events = new List<UTU_Class_Library.Event>();
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(stream);
+
+                XmlElement infoElement = (XmlElement)doc.GetElementsByTagName("utu")[0];
+                XmlElement události = (XmlElement)infoElement.GetElementsByTagName("events")[0];
+                XmlElement úkoly = (XmlElement)infoElement.GetElementsByTagName("tasks")[0];
+                XmlElement testy = (XmlElement)infoElement.GetElementsByTagName("exams")[0];
+
+                foreach (XmlNode událostNode in události)
+                {
+                    XmlElement událostElement = (XmlElement)událostNode;
+                    string název;
+                    string popis;
+                    string datumZačátku;
+                    string datumKonce;
+                    string místo;
+                    string id;
+
+                    název = událostElement.GetAttribute("title");
+                    popis = událostElement.GetAttribute("description");
+                    datumZačátku = událostElement.GetAttribute("eventStart");
+                    datumKonce = událostElement.GetAttribute("eventEnd");
+                    místo = událostElement.GetAttribute("location");
+                    id = událostElement.GetAttribute("id");
+
+                    Event událost = new Event();
+                    událost.Name = název;
+                    událost.Description = popis;
+                    událost.From = DateTime.Parse(datumZačátku);
+                    událost.To = DateTime.Parse(datumKonce);
+                    událost.Place = místo;
+                    událost.Id = int.Parse(id);
+                    Events.Add(událost);
+                }
+                foreach (XmlNode testNode in testy)
+                {
+                    XmlElement testElement = (XmlElement)testNode;
+                    subjects předmět;
+                    int skupina;
+                    string název;
+                    string popis;
+                    string splnitDo;
+                    int id;
+
+                    předmět = (subjects)Enum.Parse(typeof(subjects), testElement.GetAttribute("subject"));
+                    název = testElement.GetAttribute("title");
+                    popis = testElement.GetAttribute("description");
+                    splnitDo = testElement.GetAttribute("date");
+                    skupina = int.Parse(testElement.GetAttribute("group"));
+                    id = int.Parse(testElement.GetAttribute("id"));
+
+                    Exams test = new Exams();
+                    test.Name = název;
+                    test.Description = popis;
+                    test.Date = DateTime.Parse(splnitDo);
+                    test.Group = skupina;
+                    test.Subject = předmět.ToString();
+                    test.Id = id;
+                    Exams.Add(test);
+                }
+                foreach (XmlNode úkolNode in úkoly)
+                {
+                    XmlElement úkolElement = (XmlElement)úkolNode;
+                    subjects předmět;
+                    int skupina;
+                    string název;
+                    string popis;
+                    string splnitDo;
+                    int id;
+
+                    předmět = (subjects)Enum.Parse(typeof(subjects), úkolElement.GetAttribute("subject"));
+                    název = úkolElement.GetAttribute("title");
+                    popis = úkolElement.GetAttribute("description");
+                    splnitDo = úkolElement.GetAttribute("date");
+                    skupina = int.Parse(úkolElement.GetAttribute("group"));
+                    id = int.Parse(úkolElement.GetAttribute("id"));
+
+                    Tasks úkol = new Tasks();
+                    úkol.Name = název;
+                    úkol.Description = popis;
+                    úkol.Date = DateTime.Parse(splnitDo);
+                    úkol.Group = skupina;
+                    úkol.Subject = předmět.ToString();
+                    úkol.Id = id;
+                    Tasks.Add(úkol);
+                }
+            }
+            catch (Exception e)
+            {
+                Error("Chyba při čtení souboru. Restartujte aplikaci a kontaktujte autora. " + e.Message);
+            }
+            ImportantMessage("Data byla úspešně nahrána");
+            httpDatabase = new Database(Events, Tasks, Exams);
+            completed(httpDatabase);
         }
     }
 }

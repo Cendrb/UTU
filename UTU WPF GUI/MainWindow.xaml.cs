@@ -90,7 +90,7 @@ namespace Info
         private void reset()
         {
             //initialize datasource
-            dataLoader.LoadFromPG(
+            dataLoader.LoadFromWebUsingHttpRequest(
                 delegate(Database database)
                 {
                     PrimaryDataSource = database;
@@ -129,13 +129,13 @@ namespace Info
         {
             //Pole událostí
             událostiListBox.Items.Clear();
-            List<Events> events = dataSource.Events;
+            List<Event> events = dataSource.Events;
             events.Sort();
 
-            IEnumerable<Events> vyhovujícíUdálosti = from událost in events
+            IEnumerable<Event> vyhovujícíUdálosti = from událost in events
                                                      where DateTime.Now <= událost.To
                                                      select událost;
-            foreach (Events eventX in vyhovujícíUdálosti)
+            foreach (Event eventX in vyhovujícíUdálosti)
             {
                 EventWindow EW = new EventWindow(eventX);
                 ListBoxItem LBI = new ListBoxItem();

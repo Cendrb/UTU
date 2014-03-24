@@ -22,7 +22,7 @@ namespace UTU_WPF_GUI
     public partial class EventWindow : Window
     {
 
-        public EventWindow(Events ev)
+        public EventWindow(Event ev)
         {
             InitializeComponent();
             nadpisLabel.Content = ev.Name;
