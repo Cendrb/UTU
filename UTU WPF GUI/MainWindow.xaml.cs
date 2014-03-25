@@ -108,7 +108,7 @@ namespace Info
         {
             settings.SaveData();
             //sendReport("Application Closed");
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
         private void nápovědaKAplikaciMenuItem_Click(object sender, RoutedEventArgs e)
         {
