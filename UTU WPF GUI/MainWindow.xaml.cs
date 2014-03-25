@@ -125,6 +125,7 @@ namespace Info
         /// </summary>
         /// <param name="skupina">Skupina, pro kterou budou data zobrazena</param>
         /// <param name="dataSource">Zdroj informací pro zobrazení</param>
+
         private void showInfo(int skupina, Database dataSource)
         {
             //Pole událostí
@@ -146,16 +147,16 @@ namespace Info
 
             //Pole testů
             testyListBox.Items.Clear();
-            List<Exams> exams = dataSource.Exams;
+            List<Exam> exams = dataSource.Exams;
             exams.Sort();
 
             if (settings.ShowOdloženéTesty)
             {
-                IEnumerable<Exams> vyhovujícíTesty = from test in exams
+                IEnumerable<Exam> vyhovujícíTesty = from test in exams
                                                      where test.Group == 0 || test.Group == skupina
                                                      where DateTime.Now <= test.Date
                                                      select test;
-                foreach (Exams test in vyhovujícíTesty)
+                foreach (Exam test in vyhovujícíTesty)
                 {
                     ExamWindow EW = new ExamWindow(test);
                     ListBoxItem LBI = new ListBoxItem();
@@ -166,17 +167,18 @@ namespace Info
                     }
                     else
                         LBI.Content = test.Name + " " + test.Subject + " - " + test.Date.ToShortDateString();
+                    EW.Closing += (x, y) => showInfo(Group, dataSource);
                     LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
                     testyListBox.Items.Add(LBI);
                 }
             }
             else
             {
-                IEnumerable<Exams> vyhovujícíTesty = from test in exams
+                IEnumerable<Exam> vyhovujícíTesty = from test in exams
                                                      where test.Group == 0 || test.Group == skupina
                                                      where DateTime.Now <= test.Date
                                                      select test;
-                foreach (Exams test in vyhovujícíTesty)
+                foreach (Exam test in vyhovujícíTesty)
                 {
                     ExamWindow EW = new ExamWindow(test);
                     ListBoxItem LBI = new ListBoxItem();
@@ -190,16 +192,16 @@ namespace Info
 
             //Pole úkolů
             úkolyListBox.Items.Clear();
-            List<Tasks> tasks = dataSource.Tasks;
+            List<Task> tasks = dataSource.Tasks;
             tasks.Sort();
 
             if (settings.ShowDokončenéÚkoly)
             {
-                IEnumerable<Tasks> vyhovujícíÚkoly = from úkol in tasks
+                IEnumerable<Task> vyhovujícíÚkoly = from úkol in tasks
                                                      where úkol.Group == 0 || úkol.Group == skupina
                                                      where DateTime.Now <= úkol.Date
                                                      select úkol;
-                foreach (Tasks úkol in vyhovujícíÚkoly)
+                foreach (Task úkol in vyhovujícíÚkoly)
                 {
                     TaskWindow EW = new TaskWindow(úkol);
                     ListBoxItem LBI = new ListBoxItem();
@@ -210,17 +212,18 @@ namespace Info
                     }
                     else
                         LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString();
+                    EW.Closing += (x, y) => showInfo(Group, dataSource);
                     LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
                     úkolyListBox.Items.Add(LBI);
                 }
             }
             else
             {
-                IEnumerable<Tasks> vyhovujícíTesty = from úkol in tasks
+                IEnumerable<Task> vyhovujícíTesty = from úkol in tasks
                                                      where úkol.Group == 0 || úkol.Group == skupina
                                                      where DateTime.Now <= úkol.Date
                                                      select úkol;
-                foreach (Tasks úkol in vyhovujícíTesty)
+                foreach (Task úkol in vyhovujícíTesty)
                 {
                     TaskWindow EW = new TaskWindow(úkol);
                     ListBoxItem LBI = new ListBoxItem();
@@ -239,6 +242,7 @@ namespace Info
             {
                 showInfo(index + 1, PrimaryDataSource);
                 Group = index + 1;
+                settings.SaveData();
             }
         }
         private void resetMenuItem_Click(object sender, RoutedEventArgs e)

@@ -21,7 +21,7 @@ namespace UTU_WPF_GUI
     /// </summary>
     public partial class TaskWindow : Window
     {
-        private Tasks local;
+        private UTU_Class_Library.Task local;
         private bool done;
         public bool Done
         {
@@ -38,7 +38,7 @@ namespace UTU_WPF_GUI
                 }
             }
         }
-        public TaskWindow(Tasks input)
+        public TaskWindow(UTU_Class_Library.Task input)
         {
             local = input;
             InitializeComponent();

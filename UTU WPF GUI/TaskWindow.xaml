@@ -7,11 +7,11 @@
         <Label Content="Předmět: " HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.833,0.5"/>
         <Label Content="Kdy:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0" Width="60"/>
         <GroupBox Header="Podrobnosti" HorizontalAlignment="Left" Height="97" Margin="10,145,-154,0" VerticalAlignment="Top" Width="436">
-            <TextBox x:Name="popisTextBox" TextWrapping="Wrap" IsReadOnly="True" Margin="0,0,-2,-7" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" BorderThickness="0"/>
+            <TextBox x:Name="popisTextBox" TextWrapping="Wrap" IsReadOnly="True" Margin="0,0,-2,0" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" BorderThickness="0"/>
         </GroupBox>
         <Label Content="Skupina: " HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Width="60"/>
-        <CheckBox x:Name="hotovoCheckBox" Content="Odložit" Margin="378,5,3,0" VerticalAlignment="Top" Checked="hotovoCheckBox_Checked" Unchecked="hotovoCheckBox_Unchecked"/>
-        <Button x:Name="OK" Content="OK" Margin="378,31,10,110" Click="OK_Click"/>
+        <CheckBox x:Name="hotovoCheckBox" Content="Odložit" Margin="0,5,3,0" VerticalAlignment="Top" Checked="hotovoCheckBox_Checked" Unchecked="hotovoCheckBox_Unchecked" HorizontalAlignment="Right" Width="75"/>
+        <Button x:Name="OK" Content="OK" Margin="0,31,10,0" Click="OK_Click" HorizontalAlignment="Right" Width="68" Height="108" VerticalAlignment="Top"/>
         <Label x:Name="skupinaLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,101,0,0" RenderTransformOrigin="0.526,1.308"/>
         <Label x:Name="doLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="2.368,5" Margin="75,70,0,0"/>
         <Label x:Name="předmětLabel" Content="&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,42,0,0" Height="26"/>

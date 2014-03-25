@@ -15,10 +15,10 @@ namespace UTU_Class_Library
     {
         //public DataClasses1DataContext SQL { get; private set; }
         public List<Event> Events { get; private set; }
-        public List<Tasks> Tasks { get; private set; }
-        public List<Exams> Exams { get; private set; }
+        public List<Task> Tasks { get; private set; }
+        public List<Exam> Exams { get; private set; }
 
-        public Database(List<Event> events, List<Tasks> tasks, List<Exams> exams)
+        public Database(List<Event> events, List<Task> tasks, List<Exam> exams)
         {
             Events = events;
             Tasks = tasks;

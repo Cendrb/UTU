@@ -21,7 +21,7 @@ namespace UTU_WPF_GUI
     /// </summary>
     public partial class ExamWindow : Window
     {
-        private Exams local;
+        private Exam local;
         private bool done;
         public bool Done
         {
@@ -38,7 +38,7 @@ namespace UTU_WPF_GUI
                 }
             }
         }
-        public ExamWindow(Exams input)
+        public ExamWindow(Exam input)
         {
             local = input;
             InitializeComponent();

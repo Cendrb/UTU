@@ -69,6 +69,7 @@ namespace Info
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            SaveData();
             Refresh();
             this.Visibility = System.Windows.Visibility.Collapsed;
             e.Cancel = true;

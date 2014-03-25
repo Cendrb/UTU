@@ -86,8 +86,8 @@ namespace UTU_Class_Library
         }
         private void loadDataFromXML(Action<Database> completed)
         {
-            List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
-            List<Exams> Exams = new List<UTU_Class_Library.Exams>();
+            List<Task> Tasks = new List<UTU_Class_Library.Task>();
+            List<Exam> Exams = new List<UTU_Class_Library.Exam>();
             List<Event> Events = new List<UTU_Class_Library.Event>();
             try
             {
@@ -137,7 +137,7 @@ namespace UTU_Class_Library
                     splnitDo = testElement.GetAttribute("splnitDo");
                     skupina = int.Parse(testElement.GetAttribute("skupina"));
 
-                    Exams test = new Exams();
+                    Exam test = new Exam();
                     test.Name = název;
                     test.Description = popis;
                     test.Date = DateTime.Parse(splnitDo);
@@ -160,7 +160,7 @@ namespace UTU_Class_Library
                     splnitDo = úkolElement.GetAttribute("splnitDo");
                     skupina = int.Parse(úkolElement.GetAttribute("skupina"));
 
-                    Tasks úkol = new Tasks();
+                    Task úkol = new Task();
                     úkol.Name = název;
                     úkol.Description = popis;
                     úkol.Date = DateTime.Parse(splnitDo);
@@ -266,8 +266,8 @@ namespace UTU_Class_Library
 
         private void loadFromPG(Action<Database> completed)
         {
-            List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
-            List<Exams> Exams = new List<UTU_Class_Library.Exams>();
+            List<Task> Tasks = new List<UTU_Class_Library.Task>();
+            List<Exam> Exams = new List<UTU_Class_Library.Exam>();
             List<Event> Events = new List<UTU_Class_Library.Event>();
             string sql;
             DataSet data = new DataSet();
@@ -317,7 +317,7 @@ namespace UTU_Class_Library
 
                 foreach (DataRow row in table.Rows)
                 {
-                    Exams e = new Exams();
+                    Exam e = new Exam();
                     e.Name = row.Field<string>("title");
                     e.Description = row.Field<string>("description");
                     e.Subject = row.Field<string>("subject");
@@ -344,7 +344,7 @@ namespace UTU_Class_Library
 
                 foreach (DataRow row in table.Rows)
                 {
-                    Tasks e = new Tasks();
+                    Task e = new Task();
                     e.Name = row.Field<string>("title");
                     e.Description = row.Field<string>("description");
                     e.Subject = row.Field<string>("subject");
@@ -386,7 +386,7 @@ namespace UTU_Class_Library
 
         private void loadFromWebUsingHttpRequest(Action<Database> completed)
         {
-            WebRequest request = WebRequest.Create("http://utu.herokuapp.com/details.xml");
+            WebRequest request = WebRequest.Create("http://utu.herokuapp.com/details.xml"); //
             request.Credentials = CredentialCache.DefaultCredentials;
             WebResponse response = request.GetResponse();
 
@@ -394,8 +394,8 @@ namespace UTU_Class_Library
         }
         private void loadDataFromXMLFromWeb(Action<Database> completed, Stream stream)
         {
-            List<Tasks> Tasks = new List<UTU_Class_Library.Tasks>();
-            List<Exams> Exams = new List<UTU_Class_Library.Exams>();
+            List<Task> Tasks = new List<UTU_Class_Library.Task>();
+            List<Exam> Exams = new List<UTU_Class_Library.Exam>();
             List<Event> Events = new List<UTU_Class_Library.Event>();
             try
             {
@@ -450,7 +450,7 @@ namespace UTU_Class_Library
                     skupina = int.Parse(testElement.GetAttribute("group"));
                     id = int.Parse(testElement.GetAttribute("id"));
 
-                    Exams test = new Exams();
+                    Exam test = new Exam();
                     test.Name = název;
                     test.Description = popis;
                     test.Date = DateTime.Parse(splnitDo);
@@ -476,7 +476,7 @@ namespace UTU_Class_Library
                     skupina = int.Parse(úkolElement.GetAttribute("group"));
                     id = int.Parse(úkolElement.GetAttribute("id"));
 
-                    Tasks úkol = new Tasks();
+                    Task úkol = new Task();
                     úkol.Name = název;
                     úkol.Description = popis;
                     úkol.Date = DateTime.Parse(splnitDo);
