@@ -182,6 +182,7 @@ namespace Info
                 {
                     ExamWindow EW = new ExamWindow(test);
                     ListBoxItem LBI = new ListBoxItem();
+                    EW.Closing += (x, y) => showInfo(Group, dataSource);
                     LBI.Content = test.Name + " " + test.Subject + " - " + test.Date.ToShortDateString();
                     LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
                     if (!EW.Done)
@@ -229,6 +230,7 @@ namespace Info
                     ListBoxItem LBI = new ListBoxItem();
                     LBI.Content = úkol.Name + " " + úkol.Subject + " - " + úkol.Date.ToShortDateString();
                     LBI.MouseDoubleClick += (x, y) => EW.ShowDialog();
+                    EW.Closing += (x, y) => showInfo(Group, dataSource);
                     if (!EW.Done)
                         úkolyListBox.Items.Add(LBI);
                 }
