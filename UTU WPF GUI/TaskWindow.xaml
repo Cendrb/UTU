@@ -1,12 +1,12 @@
 ﻿<Window x:Class="UTU_WPF_GUI.TaskWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Test" Height="280" Width="464" Closing="Window_Closing">
+        Title="Test" Height="317" Width="464" Closing="Window_Closing">
     <Grid>
         <Label x:Name="nadpisLabel" Content="Test" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Label Content="Předmět: " HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.833,0.5"/>
         <Label Content="Kdy:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0" Width="60"/>
-        <GroupBox Header="Podrobnosti" HorizontalAlignment="Left" Height="97" Margin="10,145,-154,0" VerticalAlignment="Top" Width="436">
+        <GroupBox Header="Podrobnosti" Margin="10,160,10,10">
             <TextBox x:Name="popisTextBox" TextWrapping="Wrap" IsReadOnly="True" Margin="0,0,-2,0" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" BorderThickness="0"/>
         </GroupBox>
         <Label Content="Skupina: " HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Width="60"/>
@@ -15,6 +15,7 @@
         <Label x:Name="skupinaLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,101,0,0" RenderTransformOrigin="0.526,1.308"/>
         <Label x:Name="doLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="2.368,5" Margin="75,70,0,0"/>
         <Label x:Name="předmětLabel" Content="&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,42,0,0" Height="26"/>
+        <TextBlock Margin="14,132,321,131"><Hyperlink x:Name="additionalInfo" NavigateUri="" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Další informace"/></Hyperlink></TextBlock>
 
     </Grid>
 </Window>

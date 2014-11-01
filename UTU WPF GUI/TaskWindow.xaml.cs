@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UTU_Class_Library;
 
@@ -47,6 +49,14 @@ namespace UTU_WPF_GUI
             nadpisLabel.Content = input.Name;
             popisTextBox.Text = input.Description;
             předmětLabel.Content = input.Subject;
+            if(input.AdditionalInfo != "")
+            {
+                additionalInfo.NavigateUri = new Uri(input.AdditionalInfo);
+            }
+            else
+            {
+                additionalInfo.IsEnabled = false;
+            }
             if (input.Group != 0)
                 skupinaLabel.Content = input.Group + ".";
             else
@@ -63,6 +73,12 @@ namespace UTU_WPF_GUI
 
             //set checkboxes
             hotovoCheckBox.IsChecked = this.Done;
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

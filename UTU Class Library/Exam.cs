@@ -9,6 +9,7 @@ namespace UTU_Class_Library
     public class Exam : IComparable<Exam>
     {
         public string Name { get; set; }
+        public string AdditionalInfo { get; set; }
         public string Description { get; set; }
         public string Place { get; set; }
         public DateTime Date { get; set; }

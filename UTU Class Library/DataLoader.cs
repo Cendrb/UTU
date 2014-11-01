@@ -171,6 +171,7 @@ namespace UTU_Class_Library
                     string popis;
                     string splnitDo;
                     int id;
+                    string additionalInfo;
 
                     předmět = testElement.GetAttribute("subject");
                     název = testElement.GetAttribute("title");
@@ -178,6 +179,7 @@ namespace UTU_Class_Library
                     splnitDo = testElement.GetAttribute("date");
                     skupina = int.Parse(testElement.GetAttribute("group"));
                     id = int.Parse(testElement.GetAttribute("id"));
+                    additionalInfo = testElement.GetAttribute("additional_info_url");
 
                     Exam test = new Exam();
                     test.Name = název;
@@ -186,6 +188,7 @@ namespace UTU_Class_Library
                     test.Group = skupina;
                     test.Subject = předmět.ToString();
                     test.Id = id;
+                    test.AdditionalInfo = additionalInfo;
                     Exams.Add(test);
                 }
                 foreach (XmlNode úkolNode in úkoly)
@@ -197,6 +200,7 @@ namespace UTU_Class_Library
                     string popis;
                     string splnitDo;
                     int id;
+                    string additionalInfo;
 
                     předmět = úkolElement.GetAttribute("subject");
                     název = úkolElement.GetAttribute("title");
@@ -204,6 +208,7 @@ namespace UTU_Class_Library
                     splnitDo = úkolElement.GetAttribute("date");
                     skupina = int.Parse(úkolElement.GetAttribute("group"));
                     id = int.Parse(úkolElement.GetAttribute("id"));
+                    additionalInfo = úkolElement.GetAttribute("additional_info_url");
 
                     Task úkol = new Task();
                     úkol.Name = název;
@@ -212,6 +217,7 @@ namespace UTU_Class_Library
                     úkol.Group = skupina;
                     úkol.Subject = předmět.ToString();
                     úkol.Id = id;
+                    úkol.AdditionalInfo = additionalInfo;
                     Tasks.Add(úkol);
                 }
             }
