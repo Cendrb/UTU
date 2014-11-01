@@ -68,7 +68,7 @@
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timstamp.dll</ManifestTimestampUrl>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0A794E8C99BFBCC57C71AA6C0619F50B44778C1C</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F28911FF174C0DD87C9388DBE8049A66065BDE2A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>
@@ -163,6 +163,7 @@
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="UTU WPF GUI_TemporaryKey.pfx" />
+    <None Include="UTU.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

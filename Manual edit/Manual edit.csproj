@@ -78,12 +78,6 @@
     <None Include="Manual edit_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Info\UTU School Helper.csproj">
-      <Project>{a5c4c21a-577d-4251-a3f3-412392049fd3}</Project>
-      <Name>UTU School Helper</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>

@@ -145,12 +145,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Info\UTU School Helper.csproj">
-      <Project>{a5c4c21a-577d-4251-a3f3-412392049fd3}</Project>
-      <Name>UTU School Helper</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,KB2468871">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 a x64%29 a aktualizace pro rozhraní .NET Framework 4 %28KB2468871%29</ProductName>
